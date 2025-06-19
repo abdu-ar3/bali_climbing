@@ -26,9 +26,8 @@ class ClassPackage extends Model
     }
 
 
-    // Relasi ke Peserta
     public function participants()
     {
-        return $this->belongsToMany(User::class, 'class_participant');
+        return $this->hasMany(ClassParticipant::class, 'class_package_id');
     }
 }

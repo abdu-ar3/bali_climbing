@@ -7,29 +7,22 @@ use App\Models\Booking;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Feedback;
 
 class ParticipantFeedbackController extends Controller
 {
 
     public function index()
     {
-        // Ambil instruktur yang sedang login
-        $instructor = auth()->user()->instructor; 
-        
-        // Ambil semua kelas yang diajarkan oleh instruktur yang sedang login
-        $classPackages = ClassPackage::where('instructor_id', $instructor->id)->get(); 
-
-        // Debugging: Cek data classPackages
-        dd($classPackages); // Pastikan data sudah ada
-        
-        // Ambil data booking berdasarkan kelas yang diajarkan oleh instruktur
-        $bookings = Booking::whereIn('class_package_id', $classPackages->pluck('id'))
-            ->where('status', 'confirmed')
+        // Ambil semua feedback lengkap dengan relasi user & class_package
+        $feedbacks = Feedback::with(['user', 'classPackage'])
+             ->where(function ($query) {
+                $query->whereNull('instructor_feedback')->orWhere('instructor_feedback', '');
+            })
+            ->latest()
             ->get();
 
-        return view('instruktur.feedback.index', compact('bookings')); 
-
-        return view('instruktur.feedback.index', compact('bookings')); // Kirim data booking ke view
+        return view('instruktur.feedback.index', compact('feedbacks'));
     }
 
       // Menampilkan form untuk memberikan feedback
@@ -40,18 +33,25 @@ class ParticipantFeedbackController extends Controller
         return view('instruktur.feedback.create', compact('booking')); // Kirim data booking ke view
     }
 
-    // Menyimpan feedback dari instruktur
-    public function store(Request $request, $bookingId)
+    public function store(Request $request, $userId, $classPackageId)
     {
-        $request->validate([
-            'feedback' => 'required|string|max:1000', // Validasi feedback
+        // Validasi input feedback
+        $validated = $request->validate([
+            'feedback' => 'required|string|max:255',
         ]);
 
-        $booking = Booking::findOrFail($bookingId);
-        $booking->feedback = $request->feedback; // Menyimpan feedback
-        $booking->save();
+     // Simpan feedback di tabel feedback
+        $feedback = new Feedback();
+        $feedback->user_id = $userId;  // ID pengguna yang menerima feedback
+        $feedback->class_package_id = $classPackageId;  // ID kelas yang diajarkan
+        $feedback->instructor_feedback = $request->feedback;
+        $feedback->save();
 
-        return redirect()->route('instruktur.feedback')->with('success', 'Feedback berhasil disimpan!');
+        // Flash success message
+        session()->flash('success', 'Feedback berhasil disimpan.');
+
+        // Redirect kembali ke halaman detail peserta
+        return redirect()->route('instruktur.peserta', ['classId' => $classPackageId]);
     }
 
     

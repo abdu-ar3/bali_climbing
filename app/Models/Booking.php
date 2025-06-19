@@ -10,8 +10,10 @@ class Booking extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',           // ID peserta (user)
-        'class_package_id',  // ID kelas yang dibooking
+        'user_id',
+        'class_package_id',
+        'booking_date',
+        'status'
     ];
 
     // Relasi ke User (Peserta)

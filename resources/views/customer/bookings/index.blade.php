@@ -3,6 +3,13 @@
 @section('content')
 <div class="container">
     <h1>Status Pemesanan Kelas</h1>
+
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
     <table class="table">
         <thead>
             <tr>
@@ -23,6 +30,13 @@
                         @if ($booking->status === 'confirmed')
                             <a href="{{ route('customer.feedback.create', $booking->classPackage->id) }}" class="btn btn-secondary">
                                 Beri Feedback
+                            </a>
+                        @endif
+                    </td>
+                    <td>
+                        @if ($booking->status == 'confirmed')
+                            <a href="{{ route('customer.feedback.show', ['classPackageId' => $booking->class_package_id]) }}" class="btn btn-primary">
+                                Lihat Ulasan
                             </a>
                         @endif
                     </td>

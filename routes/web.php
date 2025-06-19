@@ -5,8 +5,10 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\InstructorController;
 use App\Http\Controllers\Admin\ParticipantController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BookingController as ControllersBookingController;
 use App\Http\Controllers\Customer\BookingController;
 use App\Http\Controllers\Customer\FeedbackController;
+use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\Instructor\ClassScheduleController;
 use App\Http\Controllers\Instructor\ParticipantFeedbackController;
 use App\Http\Controllers\Instructor\ProfileController;
@@ -24,14 +26,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('admin.layout');
-});
+// Route::get('/', function () {
+//     return view('home');
+// });
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('loginShow');
+Route::get('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/register', [AuthController::class, 'registerStore'])->name('registerStore');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
-Route::get('/home', [AuthController::class, 'home'])->name('home');
-Route::get('/', [AuthController::class, 'dashboard'])->name('dashboard');
+Route::get('/', [AuthController::class, 'home'])->name('home');
+Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
@@ -40,15 +44,19 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::resource('class-packages', ClassPackageController::class);
     Route::resource('participants', ParticipantController::class);
     Route::resource('instructors', InstructorController::class);
+    Route::resource('bookings', ControllersBookingController::class);
 });
 
 Route::middleware(['auth', 'role:instruktur'])->prefix('instruktur')->name('instruktur.')->group(function() {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/jadwal', [ClassScheduleController::class, 'index'])->name('jadwal');
+    Route::get('/jadwal-saya', [ClassScheduleController::class, 'myClasses'])->name('jadwal.saya'); // Rute baru
     Route::get('/feedback', [ParticipantFeedbackController::class, 'index'])->name('feedback');
-    Route::post('/feedback/{bookingId}', [ParticipantFeedbackController::class, 'store'])->name('feedback.store');
-    Route::post('/feedback/store/{bookingId}', [ParticipantFeedbackController::class, 'store'])->name('feedback.store');
+  // Rute untuk feedback peserta
+    Route::post('/feedback/{userId}/{classPackageId}', [ParticipantFeedbackController::class, 'store'])->name('feedback.store');
+    Route::get('/feedback', [ParticipantFeedbackController::class, 'index'])->name('feedback');
     Route::get('/profil', [ProfileController::class, 'index'])->name('profil');
+    Route::get('/peserta/{classId}', [ClassScheduleController::class, 'classParticipants'])->name('peserta');
 });
 
 Route::middleware(['auth', 'role:customer'])->prefix('customer')->name('customer.')->group(function() {
@@ -56,6 +64,9 @@ Route::middleware(['auth', 'role:customer'])->prefix('customer')->name('customer
     Route::get('/class-packages/{id}', [ClassPackageController::class, 'show'])->name('class-packages.show');
     Route::post('/book', [BookingController::class, 'store'])->name('book');
     Route::get('/bookings', [BookingController::class, 'showBookings'])->name('bookings.index');
+
     Route::get('/feedback/create/{classPackageId}', [FeedbackController::class, 'create'])->name('feedback.create');
-    Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
+    Route::post('/feedbackcust', [FeedbackController::class, 'store'])->name('feedback.store');
+    Route::get('/feedback', [FeedbackController::class, 'index'])->name('feedback');
+    Route::get('/feedback/show/{classPackageId}', [FeedbackController::class, 'show'])->name('feedback.show');
 });

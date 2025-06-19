@@ -14,11 +14,12 @@
                         <p><strong>Durasi:</strong> {{ $classPackage->duration }} jam</p>
                         <p><strong>Jadwal:</strong> {{ $classPackage->schedule }}</p>
 
-                        <form action="{{ route('customer.book') }}" method="POST">
+                        <form action="{{ route('customer.book') }}" method="POST" onsubmit="return confirm('Anda yakin ingin pesan kelas ini?')">
                             @csrf
                             <input type="hidden" name="class_package_id" value="{{ $classPackage->id }}">
                             <button type="submit" class="btn btn-primary">Pesan Kelas</button>
                         </form>
+
                     </div>
                 </div>
             </div>

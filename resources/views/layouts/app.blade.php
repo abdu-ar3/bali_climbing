@@ -71,15 +71,8 @@
           <div class="menu-inner-shadow"></div>
 
           <ul class="menu-inner py-1">
-            <!-- Dashboard -->
-            <li class="menu-item active">
-              <a href="index.html" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                <div data-i18n="Analytics">Dashboard</div>
-              </a>
-            </li>
-            <!-- Components -->
-             @role('admin')
+           
+          @role('admin')
             <li class="menu-header small text-uppercase"><span class="menu-header-text">Admin Interface</span></li>
             <!-- Cards -->
             <li class="menu-item">
@@ -108,30 +101,7 @@
             </li>
             @endrole
 
-            <li class="menu-header small text-uppercase"><span class="menu-header-text">User Interface</span></li>
-            <!-- Cards -->
-              <li class="menu-item">
-              <a href="cards-basic.html" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-collection"></i>
-                <div data-i18n="Basic">Product</div>
-              </a>
-            </li>
-            <li class="menu-item">
-              <a href="cards-basic.html" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-collection"></i>
-                <div data-i18n="Basic">Inventory In Out</div>
-              </a>
-            </li>
-            <li class="menu-item">
-              <a href="cards-basic.html" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-collection"></i>
-                <div data-i18n="Basic">Laporan</div>
-              </a>
-            </li>
-          </ul>
-        </aside>
-        <!-- / Menu -->
-        
+           
         <!-- Layout container -->
         <div class="layout-page">
           <!-- Navbar -->
