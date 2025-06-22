@@ -15,6 +15,7 @@
                 <th>#</th>
                 <th>Peserta</th>
                 <th>Kelas</th>
+                <th>Bukti Pembayaran</th>
                 <th>Tanggal Booking</th>
                 <th>Status</th>
                 <th>Aksi</th>
@@ -26,7 +27,14 @@
                     <td>{{ $i + 1 }}</td>
                     <td>{{ $booking->user->name }}</td>
                     <td>{{ $booking->classPackage->name }}</td>
-                    <td>{{ \Carbon\Carbon::parse($booking->booking_date)->format('d M Y H:i') }}</td>
+                    <td>
+                         @if ($booking->bukti_pembayaran)
+                            <img src="{{ asset('storage/' . $booking->bukti_pembayaran) }}" alt="Bukti Pembayaran" width="100">
+                        @else
+                            Belum ada bukti Pembayaran
+                        @endif
+                    </td>
+                    <td>{{ \Carbon\Carbon::parse($booking->booking_date)->format('d M Y') }}</td>
                     <td><span class="badge bg-{{ $booking->status == 'confirmed' ? 'success' : ($booking->status == 'cancelled' ? 'danger' : 'secondary') }}">{{ ucfirst($booking->status) }}</span></td>
                     <td>
                         <a href="{{ route('admin.bookings.edit', $booking->id) }}" class="btn btn-warning btn-sm">Edit</a>

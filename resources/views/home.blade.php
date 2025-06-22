@@ -9,7 +9,7 @@
   <meta name="keywords" content="">
 
      <!-- Favicons -->
-     <link href="{{{ asset('assets/frontend/img/favicon.png') }}}" rel="icon">
+     <link href="{{ asset('assets/img/avatars/bali-remove.png') }}" rel="icon">
      <link href="{{{ asset('assets/frontend/img/apple-touch-icon.png') }}}" rel="apple-touch-icon">
 
      <!-- Vendor CSS Files -->
@@ -149,7 +149,7 @@
               <i class="bi bi-headset color-green flex-shrink-0"></i>
               <div>
                 <span data-purecounter-start="0" data-purecounter-end="{{ $totalPeserta }}" data-purecounter-duration="1" class="purecounter"></span>
-                <p>Hours Of Support</p>
+                <p>Instruktur</p>
               </div>
             </div>
           </div><!-- End Stats Item -->
@@ -180,36 +180,41 @@
 
 <!-- Section Daftar Kelas -->
       <div class="container">
-  <div class="row gy-4">
-    @foreach ($classPackages as $class)
-      <div class="col-xl-4 col-md-6" data-aos="zoom-in" data-aos-delay="200">
-        <div class="service-item">
-          <div class="img">
-            <img src="{{ asset('assets/frontend/img/services-1.jpg') }}" class="img-fluid" alt="Gambar Kelas">
+ <div class="row gy-4">
+  @foreach ($classPackages as $class)
+    <div class="col-xl-4 col-md-6" data-aos="zoom-in" data-aos-delay="200">
+      <div class="service-item">
+        <div class="img">
+          <img 
+            src="{{ $class->image ? asset('storage/' . $class->image) : asset('assets/frontend/img/services-1.jpg') }}" 
+            class="img-fluid" 
+            alt="Gambar Kelas" 
+            style="width: 100%; height: 230px; object-fit: cover;"
+          >
+        </div>
+        <div class="details position-relative">
+          <div class="icon">
+            <i class="bi bi-mortarboard"></i>
           </div>
-          <div class="details position-relative">
-            <div class="icon">
-              <i class="bi bi-mortarboard"></i>
-            </div>
-            <a href="#" class="">
-              <h3>{{ $class->name }}</h3>
-            </a>
-            <p>{{ Str::limit($class->description, 100) }}</p>
-            <p><strong>Harga:</strong> Rp{{ number_format($class->price, 0, ',', '.') }}</p>
-            <p><strong>Durasi:</strong> {{ $class->duration }} jam</p>
-            <p><strong>Jadwal:</strong> {{ \Carbon\Carbon::parse($class->schedule)->translatedFormat('d M Y, H:i') }}</p>
-          
+          <a href="#" class="">
+            <h3>{{ $class->name }}</h3>
+          </a>
+          <p>{{ Str::limit($class->description, 100) }}</p>
+          <p><strong>Harga:</strong> Rp{{ number_format($class->price, 0, ',', '.') }}</p>
+          <p><strong>Durasi:</strong> {{ $class->duration }} jam</p>
+          <p><strong>Jadwal:</strong> {{ \Carbon\Carbon::parse($class->schedule)->translatedFormat('d M Y, H:i') }}</p>
+
           <div class="text-center mt-3">
-              <a href="{{ route('loginShow') }}" class="btn btn-primary btn-sm">
-                Booking Sekarang
-              </a>
-            </div>
-          
+            <a href="{{ route('loginShow') }}" class="btn btn-primary btn-sm">
+              Booking Sekarang
+            </a>
           </div>
         </div>
       </div>
-    @endforeach
-  </div>
+    </div>
+  @endforeach
+</div>
+
 </div>
 <!-- /Services Section -->
 

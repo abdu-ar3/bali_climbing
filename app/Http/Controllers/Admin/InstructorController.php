@@ -6,6 +6,7 @@ use App\Models\Instructor;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 class InstructorController extends Controller
 {
@@ -21,7 +22,7 @@ class InstructorController extends Controller
     public function create()
     {
         // Mengambil semua user yang memiliki role 'instruktur'
-        $users = User::role('instruktur')->get();
+        $users = User::get();
         return view('admin.instructors.create', compact('users'));
     }
 
@@ -34,8 +35,18 @@ class InstructorController extends Controller
             'contact' => 'nullable|string',
         ]);
 
-        // Simpan data instruktur
         Instructor::create($validated);
+
+        DB::table('role_user')->updateOrInsert(
+            [
+                'user_id' => $validated['user_id'],
+                'role_id' => 2,
+            ],
+            [
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]
+        );
 
         return redirect()->route('admin.instructors.index')->with('success', 'Instruktur berhasil ditambahkan');
     }

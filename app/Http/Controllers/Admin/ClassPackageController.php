@@ -80,8 +80,11 @@ class ClassPackageController extends Controller
     // Menghapus paket kelas
     public function destroy(ClassPackage $classPackage)
     {
+       try {
         $classPackage->delete();
-
-        return redirect()->route('admin.class-packages.index')->with('success', 'Kelas berhasil dihapus');
+            return redirect()->route('admin.class-packages.index')->with('success', 'Kelas berhasil dihapus');
+        } catch (\Illuminate\Database\QueryException $e) {
+            return redirect()->route('admin.class-packages.index')->with('error', 'Gagal menghapus kelas karena masih memiliki relasi pemesanan.');
+        }
     }
 }

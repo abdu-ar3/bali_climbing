@@ -4,6 +4,10 @@
     <h1>Daftar Instruktur</h1>
     <a href="{{ route('admin.instructors.create') }}" class="btn btn-primary">Tambah Instruktur</a>
 
+    @if(session('success'))
+        <div class="alert alert-success mt-2">{{ session('success') }}</div>
+    @endif
+
     <table class="table mt-4">
         <thead>
             <tr>
