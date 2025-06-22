@@ -61,7 +61,7 @@
               <!-- Logo -->
               <div class="app-brand justify-content-center">
                 <a href="index.html" class="app-brand-link gap-2">
-                       <img src="{{ asset('assets/img/avatars/logo.png') }}" alt="Logo" width="80">
+                       <img src="{{ asset('assets/img/avatars/bali-profile.jpg') }}" alt="Logo" width="80">
                     </a>
                     
                   </span>
@@ -124,8 +124,13 @@
 
               <p class="text-center">
                 <span>New on our platform?</span>
-                <a href="auth-register-basic.html">
+                <a href="{{ route('register') }}">
                   <span>Create an account</span>
+                </a>
+              </p>
+              <p class="text-center">
+                <a href="{{ route('home') }}">
+                  <span>Back to home</span>
                 </a>
               </p>
             </div>

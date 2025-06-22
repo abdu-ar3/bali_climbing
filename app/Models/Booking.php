@@ -13,7 +13,8 @@ class Booking extends Model
         'user_id',
         'class_package_id',
         'booking_date',
-        'status'
+        'status',
+        'bukti_pembayaran'
     ];
 
     // Relasi ke User (Peserta)

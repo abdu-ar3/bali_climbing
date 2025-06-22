@@ -39,6 +39,9 @@ Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard'
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+Route::put('/booking/{id}/upload-bukti', [\App\Http\Controllers\Customer\BookingController::class, 'uploadBukti'])->name('customer.bukti.upload');
+
+
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function() {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('class-packages', ClassPackageController::class);

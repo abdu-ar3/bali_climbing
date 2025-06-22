@@ -56,6 +56,7 @@ class AuthController extends Controller
 
     public function dashboard()
     {
+        $classPackages = ClassPackage::all();  // Ambil semua kelas
         $totalClasses = ClassPackage::count();
         $totalPeserta = ClassParticipant::count();
 
@@ -78,14 +79,12 @@ class AuthController extends Controller
 
     public function registerStore(Request $request)
     {
-// Validasi input
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed', // pastikan ada password_confirmation
         ]);
 
-        // Simpan user baru
         $user = User::create([
             'name' => $request->input('name'),
             'email' => $request->input('email'),

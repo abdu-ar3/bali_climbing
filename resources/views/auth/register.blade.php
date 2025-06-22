@@ -10,7 +10,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-    <title>Register | Bali Climbing</title>
+  <title>Register | Bali Climbing</title>
     <meta name="description" content="" />
 
     <!-- Favicon -->
@@ -39,7 +39,7 @@
             <div class="card-body">
               <div class="app-brand justify-content-center">
                 <a href="#" class="app-brand-link gap-2">
-                  <img src="{{ asset('assets/img/avatars/logo.png') }}" alt="Logo" width="80">
+                  <img src="{{ asset('assets/img/avatars/bali-profile.jpg') }}" alt="Logo" width="80">
                 </a>
               </div>
 

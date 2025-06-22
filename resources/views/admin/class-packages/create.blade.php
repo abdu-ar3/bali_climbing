@@ -3,7 +3,7 @@
 @section('content')
     <h1>Tambah Paket Kelas</h1>
 
-    <form action="{{ route('admin.class-packages.store') }}" method="POST">
+    <form action="{{ route('admin.class-packages.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
         <div class="form-group">
@@ -29,6 +29,11 @@
         <div class="form-group">
             <label for="schedule">Jadwal</label>
             <input type="datetime-local" name="schedule" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="image">Gambar Kelas</label>
+            <input type="file" name="image" class="form-control">
         </div>
 
         <div class="form-group">

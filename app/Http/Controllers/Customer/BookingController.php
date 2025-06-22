@@ -39,5 +39,26 @@ class BookingController extends Controller
         $bookings = Booking::where('user_id', Auth::id())->get();
         return view('customer.bookings.index', compact('bookings'));
     }
+
+    public function uploadBukti(Request $request, $id)
+    {
+        $booking = Booking::where('id', $id)
+            ->where('user_id', Auth::id()) // pastikan hanya user pemilik booking yang bisa upload
+            ->firstOrFail();
+
+        if ($booking->bukti_pembayaran) {
+            return redirect()->back()->with('error', 'Bukti pembayaran sudah diupload.');
+        }
+
+        $request->validate([
+            'bukti_pembayaran' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
+
+        $path = $request->file('bukti_pembayaran')->store('bukti_pembayaran', 'public');
+        $booking->update(['bukti_pembayaran' => $path]);
+
+        return redirect()->back()->with('success', 'Bukti pembayaran berhasil diupload!');
+    }
+
 }
 

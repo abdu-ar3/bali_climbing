@@ -36,10 +36,16 @@ class ClassPackageController extends Controller
             'duration' => 'required|integer',
             'schedule' => 'required|date',
             'instructor_id' => 'required|exists:users,id', // Validasi instruktur
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // Simpan data ke database
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('class_images', 'public');
+            $validated['image'] = $imagePath;
+        }
+
         ClassPackage::create($validated);
+
 
         return redirect()->route('admin.class-packages.index')->with('success', 'Kelas berhasil ditambahkan');
     }

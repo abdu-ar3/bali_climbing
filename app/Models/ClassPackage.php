@@ -9,7 +9,6 @@ class ClassPackage extends Model
 {
     use HasFactory;
 
-    // Tentukan kolom yang dapat diisi massal
     protected $fillable = [
         'name',           // Nama kelas
         'description',    // Deskripsi kelas
@@ -17,6 +16,7 @@ class ClassPackage extends Model
         'duration',       // Durasi kelas (dalam jam)
         'schedule',       // Jadwal kelas
         'instructor_id',  // Instruktur yang mengajar
+        'image',
     ];
 
     // Relasi ke Instruktur
